@@ -1,0 +1,40 @@
+<!-- ═══════════════════════════════════════════
+     ROOM 0 — INTRO
+     The cinematic opening. Albertha's name
+     appears first, then the sentences reveal
+     one by one before the title fades in.
+     ═══════════════════════════════════════════ -->
+<section id="intro">
+
+  <!-- Ambient glow orbs -->
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(201,107,138,0.09),transparent);top:-100px;left:-100px;animation-duration:14s"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(212,197,226,0.07),transparent);bottom:-80px;right:-60px;animation-duration:18s;animation-delay:-5s"></div>
+  <div class="glow-orb" style="width:280px;height:280px;background:radial-gradient(circle,rgba(212,168,83,0.04),transparent);top:40%;left:60%;animation-duration:11s;animation-delay:-3s"></div>
+
+  <div class="intro-content">
+    <!-- Sentence reveal sequence — timed by script.js -->
+    <div id="s1" class="intro-sentence">Albertha,</div>
+    <div id="s2" class="intro-sentence">"You spent so long taking care of everything and everyone —</div>
+    <div id="s3" class="intro-sentence">that somewhere along the way, you forgot to discover yourself."</div>
+
+    <!-- Heartbeat pulse line -->
+    <div class="heartbeat" id="heartbeat-line" style="opacity:0;transition:opacity 1s ease"></div>
+
+    <!-- Response sentence -->
+    <div id="s4" class="intro-sentence" style="font-size:clamp(14px,2.2vw,20px);color:rgba(255,255,255,0.6)">
+      And I want to be the one who helps you remember.
+    </div>
+
+    <!-- Main title -->
+    <div id="title-main" class="title-main" style="margin-top:42px">Becoming Her Again</div>
+
+    <!-- Subtitle -->
+    <div id="subtitle-main" class="subtitle-intro">A world built for you, with all my love</div>
+
+    <!-- Enter button -->
+    <div>
+      <div class="enter-btn" id="enter-btn" onclick="enterSite()">Enter Your World</div>
+    </div>
+  </div>
+
+</section>

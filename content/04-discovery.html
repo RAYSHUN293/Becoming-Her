@@ -1,0 +1,37 @@
+<!-- ═══════════════════════════════════════════
+     ROOM 3 — THE DISCOVERY BOARD
+     Purpose: Interactive self-discovery cards.
+     3 cards open, 6 locked — click to unlock.
+     Cards are built by script.js from the
+     CHALLENGES array defined there.
+     ═══════════════════════════════════════════ -->
+<section id="room3">
+
+  <div class="room-label"><span class="room-number">III</span>The Discovery Board</div>
+
+  <!-- Glow orb -->
+  <div class="glow-orb" style="width:480px;height:480px;background:radial-gradient(circle,rgba(212,197,226,0.07),transparent);top:10%;right:-100px;animation-duration:15s"></div>
+
+  <div class="room3-content">
+
+    <!-- Section header -->
+    <div class="fade-up" style="text-align:center">
+      <div class="section-eyebrow" style="text-align:center">Chapter Three</div>
+      <h2 class="section-title" style="text-align:center">Little by little,<br><em>rediscovering Albie</em></h2>
+      <div class="section-divider" style="margin:22px auto"></div>
+      <p class="section-body" style="max-width:600px;margin:0 auto 8px">
+        These are not tasks or tests. They are gentle invitations — small moments to spend time with yourself,
+        not because anything is wrong, but because <em style="color:rgba(245,198,208,0.8)">you</em> are worth getting to know more deeply.
+        There is no pressure and no deadline. Just you, when you are ready.
+      </p>
+      <div style="font-family:'Dancing Script',cursive;font-size:16px;color:rgba(245,198,208,0.5)">
+        Click any card when you feel ready to unlock it ♡
+      </div>
+    </div>
+
+    <!-- Challenge cards injected here by script.js -->
+    <div class="challenge-grid" id="challenge-grid"></div>
+
+  </div><!-- /room3-content -->
+
+</section>

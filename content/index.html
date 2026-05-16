@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Becoming Her Again — For Albertha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+  <button id="music-btn" onclick="toggleMusic()">♪ AMBIENCE</button>
+
+  <nav id="nav-dots">
+    <div class="nav-dot active" onclick="scrollToSection(0)" title="Intro"></div>
+    <div class="nav-dot" onclick="scrollToSection(1)" title="The Girl I See"></div>
+    <div class="nav-dot" onclick="scrollToSection(2)" title="Before the World Hurt You"></div>
+    <div class="nav-dot" onclick="scrollToSection(3)" title="Discovery Board"></div>
+    <div class="nav-dot" onclick="scrollToSection(4)" title="Future Her"></div>
+    <div class="nav-dot" onclick="scrollToSection(5)" title="Us"></div>
+  </nav>
+
+  <div id="transition-overlay"></div>
+
+  <button class="easter-egg-trigger" onclick="toggleEasterEgg()" aria-label="Secret message">♡</button>
+  <div class="easter-egg-popup" id="easter-egg-popup">
+    <p>"I hid this little corner just for you, Albie — in case you needed a quiet reminder that someone thinks about you even in the smallest details of things they build."</p>
+  </div>
+
+  <audio id="ambient-audio" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="site-content">
+    <div data-include="01-intro.html"></div>
+    <div data-include="02-girl-i-see.html"></div>
+    <div data-include="03-before-pain.html"></div>
+    <div data-include="04-discovery.html"></div>
+    <div data-include="05-future-her.html"></div>
+    <div data-include="06-us.html"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Becoming Her Again — For Albertha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+/* ═══════════════════════════════════════════════════════
+   BECOMING HER AGAIN — styles.css
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  --pink:         #f5c6d0;
+  --rose:         #e8a0b0;
+  --deep-rose:    #c96b8a;
+  --lavender:     #d4c5e2;
+  --gold:         #d4a853;
+  --dark:         #0d0608;
+  --dark-mid:     #1a0d12;
+  --glass:        rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.12);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html  { scroll-behavior: smooth; }
+body  { background:var(--dark); color:rgba(255,255,255,0.92); font-family:'Montserrat',sans-serif; font-weight:300; overflow-x:hidden; cursor:none; }
+
+::-webkit-scrollbar       { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:rgba(245,198,208,0.2); border-radius:2px; }
+
+/* ── Section base — NO overflow hidden, NO min-height on content rooms ── */
+section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ── Fixed UI ── */
+#cursor      { position:fixed; width:12px; height:12px; border-radius:50%; background:rgba(245,198,208,0.85); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:transform .15s ease; mix-blend-mode:difference; }
+#cursor-ring { position:fixed; width:36px; height:36px; border-radius:50%; border:1px solid rgba(245,198,208,0.35); pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:all .3s ease; }
+#particles-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+.progress-bar { position:fixed; top:0; left:0; height:2px; background:linear-gradient(to right,var(--rose),var(--pink),var(--lavender)); z-index:1001; transition:width .3s ease; box-shadow:0 0 10px rgba(245,198,208,0.4); pointer-events:none; }
+#transition-overlay { position:fixed; inset:0; z-index:999; pointer-events:none; background:var(--dark); opacity:0; transition:opacity .6s ease; }
+
+/* ── Music ── */
+#music-btn { position:fixed; top:26px; right:30px; z-index:1000; background:var(--glass); border:1px solid var(--glass-border); border-radius:50px; padding:10px 20px; font-family:'Montserrat',sans-serif; font-size:11px; letter-spacing:2px; color:rgba(255,255,255,0.7); cursor:pointer; transition:all .4s ease; backdrop-filter:blur(12px); }
+#music-btn:hover { background:rgba(255,255,255,0.12); color:#fff; }
+
+/* ── Nav dots ── */
+#nav-dots { position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:1000; display:flex; flex-direction:column; gap:16px; list-style:none; }
+.nav-dot  { width:8px; height:8px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.28); cursor:pointer; transition:all .4s ease; background:transparent; }
+.nav-dot.active { background:var(--pink); border-color:var(--pink); transform:scale(1.3); }
+.nav-dot:hover  { border-color:var(--pink); }
+
+/* ── Easter egg ── */
+.easter-egg-trigger { position:fixed; bottom:30px; left:30px; z-index:1000; width:40px; height:40px; border-radius:50%; background:rgba(245,198,208,0.06); border:1px solid rgba(245,198,208,0.12); cursor:pointer; transition:all .4s ease; display:flex; align-items:center; justify-content:center; font-size:16px; color:rgba(245,198,208,0.4); }
+.easter-egg-trigger:hover { background:rgba(245,198,208,0.12); color:rgba(245,198,208,0.8); transform:scale(1.1); }
+.easter-egg-popup { position:fixed; bottom:84px; left:30px; z-index:1000; background:rgba(22,8,16,0.97); border:1px solid rgba(245,198,208,0.2); border-radius:15px; padding:19px 22px; max-width:285px; backdrop-filter:blur(20px); opacity:0; transform:translateY(10px); pointer-events:none; transition:all .4s ease; }
+.easter-egg-popup.show { opacity:1; transform:translateY(0); pointer-events:all; }
+.easter-egg-popup p { font-family:'Dancing Script',cursive; font-size:16px; color:rgba(245,198,208,0.85); line-height:1.75; }
+
+/* ── Shared typography ── */
+.room-label { position:absolute; top:36px; left:50%; transform:translateX(-50%); font-size:10px; letter-spacing:6px; text-transform:uppercase; color:rgba(255,255,255,0.26); z-index:10; white-space:nowrap; }
+.room-number { display:inline-block; margin-right:14px; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:14px; color:rgba(245,198,208,0.48); }
+.section-eyebrow { font-size:10px; letter-spacing:6px; text-transform:uppercase; color:rgba(212,168,83,0.72); margin-bottom:22px; }
+.section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(32px,4.8vw,68px); font-weight:300; line-height:1.1; margin-bottom:28px; }
+.section-title em { font-style:italic; color:var(--pink); }
+.section-body { font-size:15px; line-height:1.95; color:rgba(255,255,255,0.58); font-weight:300; margin-bottom:34px; }
+.section-divider { width:60px; height:1px; background:linear-gradient(to right,transparent,rgba(245,198,208,0.5),transparent); margin:22px 0; }
+
+/* ── Fade animations ── */
+.fade-up    { opacity:0; transform:translateY(38px); }
+.fade-left  { opacity:0; transform:translateX(-38px); }
+.fade-right { opacity:0; transform:translateX(38px); }
+.fade-up.in    { animation: fadeUpIn .9s cubic-bezier(.22,.61,.36,1) forwards; }
+.fade-left.in  { animation: fadeLeftIn .9s cubic-bezier(.22,.61,.36,1) forwards; }
+.fade-right.in { animation: fadeRightIn .9s cubic-bezier(.22,.61,.36,1) forwards; }
+@keyframes fadeUpIn    { from { opacity:0; transform:translateY(38px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeLeftIn  { from { opacity:0; transform:translateX(-38px); } to { opacity:1; transform:translateX(0); } }
+@keyframes fadeRightIn { from { opacity:0; transform:translateX(38px); } to { opacity:1; transform:translateX(0); } }
+
+/* ── Ambient ── */
+.glow-orb     { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; animation:drift 12s ease-in-out infinite; }
+.floating-heart { position:absolute; pointer-events:none; animation:floatHeart 6s ease-in-out infinite; font-size:14px; opacity:.13; }
+.cloud-drift  { position:absolute; background:radial-gradient(ellipse,rgba(212,197,226,0.05) 0%,transparent 70%); border-radius:50%; pointer-events:none; animation:cloudDrift 20s ease-in-out infinite; }
+.aurora       { position:absolute; inset:0; z-index:0; overflow:hidden; background:radial-gradient(ellipse 60% 40% at 70% 30%,rgba(120,80,180,0.08),transparent),radial-gradient(ellipse 50% 50% at 30% 70%,rgba(245,198,208,0.06),transparent); animation:auroraPulse 8s ease-in-out infinite; }
+
+/* ── Keyframes ── */
+@keyframes drift       { 0%,100%{transform:translate(0,0)}       33%{transform:translate(28px,-18px)}          66%{transform:translate(-18px,14px)} }
+@keyframes floatHeart  { 0%,100%{transform:translateY(0) scale(1);opacity:.13} 50%{transform:translateY(-28px) scale(1.1);opacity:.22} }
+@keyframes cloudDrift  { 0%,100%{transform:translateX(0) translateY(0);opacity:.3} 50%{transform:translateX(58px) translateY(-28px);opacity:.6} }
+@keyframes heartbeat   { 0%,100%{transform:scaleY(.6);opacity:.3} 50%{transform:scaleY(1.2);opacity:.8} }
+@keyframes auroraPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+@keyframes unlock      { 0%{box-shadow:0 0 0 rgba(245,198,208,0)} 50%{box-shadow:0 0 80px rgba(245,198,208,0.3),0 0 160px rgba(245,198,208,0.1)} 100%{box-shadow:0 0 40px rgba(245,198,208,0.08)} }
+
+/* ══════════════════════════════════
+   INTRO
+══════════════════════════════════ */
+#intro { background:var(--dark); min-height:100vh; }
+.intro-content { position:relative; z-index:2; text-align:center; max-width:820px; padding:40px 24px; }
+.intro-sentence { font-family:'Cormorant Garamond',serif; font-size:clamp(19px,3.6vw,38px); font-weight:300; font-style:italic; letter-spacing:.5px; line-height:1.65; opacity:0; transform:translateY(28px); transition:all 1.4s cubic-bezier(.22,.61,.36,1); color:rgba(255,255,255,0.86); }
+.intro-sentence.visible { opacity:1; transform:translateY(0); }
+.title-main { font-family:'Cormorant Garamond',serif; font-size:clamp(38px,7.5vw,88px); font-weight:300; letter-spacing:6px; color:var(--pink); opacity:0; transform:translateY(38px); transition:all 1.8s cubic-bezier(.22,.61,.36,1); }
+.title-main.visible { opacity:1; transform:translateY(0); }
+.subtitle-intro { font-size:11px; letter-spacing:5px; color:rgba(255,255,255,0.38); margin-top:14px; opacity:0; transition:all 1.4s ease .6s; text-transform:uppercase; }
+.subtitle-intro.visible { opacity:1; }
+.enter-btn { display:inline-block; margin-top:56px; padding:16px 52px; border:1px solid rgba(245,198,208,0.35); border-radius:60px; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:rgba(245,198,208,0.8); cursor:pointer; transition:all .5s ease; background:rgba(245,198,208,0.05); opacity:0; backdrop-filter:blur(8px); }
+.enter-btn.visible { opacity:1; }
+.enter-btn:hover { background:rgba(245,198,208,0.12); border-color:rgba(245,198,208,0.7); color:var(--pink); transform:scale(1.04); }
+.heartbeat { width:2px; height:40px; background:linear-gradient(to bottom,transparent,var(--pink),transparent); margin:28px auto; animation:heartbeat 2s ease-in-out infinite; }
+
+/* ══════════════════════════════════
+   ROOM 1 — THE GIRL I SEE
+══════════════════════════════════ */
+#room1 { background:linear-gradient(160deg,#1a0d12 0%,#120810 40%,#1e0e16 100%); padding:100px 0 80px; }
+.room1-content { position:relative; z-index:2; max-width:1200px; width:100%; padding:0 40px; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+
+.quote-card { background:var(--glass); border:1px solid var(--glass-border); border-radius:20px; padding:28px 32px; backdrop-filter:blur(16px); position:relative; margin-bottom:16px; transition:transform .4s ease,box-shadow .4s ease; }
+.quote-card:hover { transform:translateY(-4px); box-shadow:0 24px 60px rgba(245,198,208,0.08); }
+.quote-card::before { content:'"'; position:absolute; top:-10px; left:20px; font-family:'Cormorant Garamond',serif; font-size:80px; color:rgba(245,198,208,0.1); line-height:1; }
+.quote-text { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; line-height:1.75; color:rgba(255,255,255,0.84); }
+.quote-attr { font-size:10px; letter-spacing:3px; color:rgba(245,198,208,0.45); margin-top:10px; text-transform:uppercase; }
+
+.admire-list { display:flex; flex-direction:column; gap:11px; margin-top:6px; }
+.admire-item { display:flex; align-items:flex-start; gap:14px; padding:13px 17px; background:var(--glass); border:1px solid var(--glass-border); border-radius:13px; transition:all .4s ease; }
+.admire-item:hover { background:rgba(245,198,208,0.06); border-color:rgba(245,198,208,0.2); transform:translateX(5px); }
+.admire-dot { width:6px; height:6px; border-radius:50%; background:var(--pink); margin-top:7px; flex-shrink:0; box-shadow:0 0 10px rgba(245,198,208,0.6); }
+.admire-text { font-size:14px; line-height:1.7; color:rgba(255,255,255,0.72); }
+
+.polaroid-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.polaroid { background:rgba(255,253,250,0.06); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:10px 10px 32px; transform:rotate(-2deg); transition:all .5s ease; backdrop-filter:blur(8px); }
+.polaroid:nth-child(2) { transform:rotate(2.5deg); }
+.polaroid:nth-child(3) { transform:rotate(-1deg); }
+.polaroid:nth-child(4) { transform:rotate(1.5deg); }
+.polaroid:nth-child(5) { transform:rotate(-0.5deg); }
+.polaroid:nth-child(6) { transform:rotate(2deg); }
+.polaroid:hover { transform:rotate(0) scale(1.04); z-index:10; }
+.polaroid-img { width:100%; aspect-ratio:1; background:linear-gradient(135deg,rgba(245,198,208,0.08),rgba(212,197,226,0.08)); border-radius:2px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.polaroid-img img { width:100%; height:100%; object-fit:cover; border-radius:2px; display:block; }
+.polaroid-caption { text-align:center; margin-top:8px; font-family:'Dancing Script',cursive; font-size:13px; color:rgba(255,255,255,0.5); }
+
+.strength-item { font-size:13px; color:rgba(255,255,255,0.58); line-height:1.65; padding:10px 13px; background:rgba(255,255,255,0.03); border-radius:9px; }
+.secure-banner { background:rgba(245,198,208,0.05); border:1px solid rgba(245,198,208,0.1); border-radius:13px; padding:15px 18px; margin-top:18px; font-family:'Dancing Script',cursive; font-size:15px; color:rgba(245,198,208,0.62); text-align:center; }
+
+/* ══════════════════════════════════
+   ROOM 2 — BEFORE THE WORLD HURT YOU
+══════════════════════════════════ */
+#room2 { background:linear-gradient(160deg,#0e0d18 0%,#110f1e 50%,#160e1a 100%); padding:120px 0 100px; }
+.room2-content { position:relative; z-index:2; max-width:1100px; width:100%; padding:0 40px; }
+
+.scrapbook-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:52px; }
+.scrapbook-card { background:var(--glass); border:1px solid var(--glass-border); border-radius:16px; padding:24px; backdrop-filter:blur(12px); transition:all .5s ease; }
+.scrapbook-card:hover { transform:translateY(-7px); box-shadow:0 28px 65px rgba(0,0,0,0.4),0 0 38px rgba(245,198,208,0.05); border-color:rgba(245,198,208,0.17); }
+.scrapbook-label { font-size:10px; letter-spacing:4px; text-transform:uppercase; color:rgba(245,198,208,0.5); margin-bottom:7px; }
+.scrapbook-title { font-family:'Cormorant Garamond',serif; font-size:21px; color:rgba(255,255,255,0.9); margin-bottom:10px; }
+.scrapbook-text { font-size:13px; line-height:1.85; color:rgba(255,255,255,0.52); }
+.scrapbook-card img { width:100%; height:100%; object-fit:cover; border-radius:8px; }
+
+.memory-img { width:100%; height:160px; background:linear-gradient(135deg,rgba(245,198,208,0.06),rgba(212,197,226,0.04)); border-radius:10px; border:1px dashed rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.18); font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; flex-direction:column; gap:7px; overflow:hidden; }
+.memory-img img { width:100%; height:100%; object-fit:cover; border-radius:10px; }
+.memory-img svg { opacity:.18; }
+
+/* ══════════════════════════════════
+   ROOM 3 — DISCOVERY BOARD
+══════════════════════════════════ */
+#room3 { background:linear-gradient(160deg,#120814 0%,#0e0c18 50%,#130a10 100%); padding:120px 0 100px; }
+.room3-content { position:relative; z-index:2; max-width:1200px; width:100%; padding:0 40px; }
+
+.challenge-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; margin-top:46px; }
+.challenge-card { background:var(--glass); border:1px solid var(--glass-border); border-radius:20px; padding:25px; backdrop-filter:blur(12px); cursor:pointer; transition:all .5s cubic-bezier(.22,.61,.36,1); position:relative; overflow:hidden; }
+.challenge-card.locked { filter:brightness(.65); }
+.challenge-card.locked::after { content:''; position:absolute; inset:0; background:rgba(13,6,8,0.5); backdrop-filter:blur(4px); border-radius:20px; z-index:2; }
+.challenge-card.locked .lock-icon { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:3; font-size:22px; opacity:.5; }
+.challenge-card:not(.locked):hover { transform:translateY(-6px) scale(1.01); box-shadow:0 0 60px rgba(245,198,208,0.12),0 20px 40px rgba(0,0,0,0.3); border-color:rgba(245,198,208,0.25); background:rgba(245,198,208,0.07); }
+.challenge-card.unlocking { animation:unlock .8s cubic-bezier(.22,.61,.36,1) forwards; }
+.challenge-number { font-size:10px; letter-spacing:4px; color:rgba(245,198,208,0.4); margin-bottom:12px; text-transform:uppercase; }
+.challenge-icon { font-size:26px; margin-bottom:13px; display:block; }
+.challenge-title { font-family:'Cormorant Garamond',serif; font-size:20px; color:rgba(255,255,255,0.9); margin-bottom:7px; }
+.challenge-desc { font-size:13px; line-height:1.75; color:rgba(255,255,255,0.52); }
+.challenge-note { margin-top:13px; padding:11px 13px; background:rgba(245,198,208,0.06); border-radius:9px; font-family:'Dancing Script',cursive; font-size:14px; color:rgba(245,198,208,0.76); display:none; }
+.challenge-card:not(.locked):hover .challenge-note { display:block; }
+
+/* ══════════════════════════════════
+   ROOM 4 — FUTURE HER
+══════════════════════════════════ */
+#room4 { background:linear-gradient(160deg,#0a0d18 0%,#0d0d1a 50%,#10091a 100%); padding:120px 0 100px; }
+.room4-content { position:relative; z-index:2; max-width:1200px; width:100%; padding:0 40px; }
+
+.vision-grid { display:flex; flex-direction:column; gap:32px; margin-top:46px; }
+.vision-card { border-radius:24px; padding:0; position:relative; overflow:hidden; transition:all .5s ease; border:1px solid rgba(255,255,255,0.08); display:grid; grid-template-columns:320px 1fr; min-height:380px; }
+.vision-card:nth-child(odd) { grid-template-columns:320px 1fr; }
+.vision-card:nth-child(even) { grid-template-columns:1fr 320px; }
+.vision-card:nth-child(1) { background:linear-gradient(135deg,rgba(245,198,208,0.08),rgba(212,168,83,0.04)); }
+.vision-card:nth-child(2) { background:linear-gradient(135deg,rgba(212,197,226,0.08),rgba(245,198,208,0.04)); }
+.vision-card:nth-child(3) { background:linear-gradient(135deg,rgba(212,168,83,0.06), rgba(245,198,208,0.04)); }
+.vision-card:nth-child(4) { background:linear-gradient(135deg,rgba(212,197,226,0.06),rgba(212,168,83,0.03)); }
+.vision-card:hover { transform:translateY(-6px); box-shadow:0 40px 80px rgba(0,0,0,0.3),0 0 60px rgba(245,198,208,0.06); }
+.vision-card-img { width:100%; height:100%; min-height:380px; border-radius:0; background:linear-gradient(135deg,rgba(245,198,208,0.08),rgba(212,197,226,0.05)); border:none; border-right:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.2); font-size:10px; letter-spacing:2px; flex-direction:column; gap:7px; overflow:hidden; margin-bottom:0; }
+.vision-card:nth-child(even) .vision-card-img { border-right:none; border-left:1px solid rgba(255,255,255,0.06); order:2; }
+.vision-card:nth-child(even) .vision-card-body { order:1; }
+.vision-card-img img { width:100%; height:100%; object-fit:cover; object-position:center top; border-radius:0; }
+.vision-card-img svg { opacity:.2; }
+.vision-card-body { padding:40px 36px; display:flex; flex-direction:column; justify-content:center; gap:0; }
+.vision-tag { display:inline-block; padding:4px 13px; background:rgba(245,198,208,0.1); border-radius:40px; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(245,198,208,0.6); margin-bottom:14px; align-self:flex-start; }
+.vision-title { font-family:'Cormorant Garamond',serif; font-size:28px; color:rgba(255,255,255,0.9); margin-bottom:12px; line-height:1.2; }
+.vision-text { font-size:13px; line-height:1.85; color:rgba(255,255,255,0.52); }
+.vision-quote { margin-top:20px; padding:13px; background:rgba(255,255,255,0.03); border-left:2px solid rgba(245,198,208,0.3); border-radius:0 9px 9px 0; font-family:'Dancing Script',cursive; font-size:15px; color:rgba(245,198,208,0.72); }
+
+/* ══════════════════════════════════
+   ROOM 5 — US
+══════════════════════════════════ */
+#room5 { background:linear-gradient(160deg,#160810 0%,#1a0d12 50%,#0d0608 100%); padding:120px 0 100px; }
+.room5-content { position:relative; z-index:2; max-width:1200px; width:100%; padding:0 40px; }
+.us-grid { display:grid; grid-template-columns:1fr 1fr; gap:58px; align-items:start; }
+
+.timeline { display:flex; flex-direction:column; }
+.timeline-item { display:flex; gap:20px; align-items:flex-start; padding-bottom:26px; position:relative; }
+.timeline-item::before { content:''; position:absolute; left:9px; top:20px; bottom:0; width:1px; background:linear-gradient(to bottom,rgba(245,198,208,0.3),transparent); }
+.timeline-item:last-child::before { display:none; }
+.timeline-dot { width:19px; height:19px; border-radius:50%; flex-shrink:0; border:1.5px solid rgba(245,198,208,0.4); background:rgba(245,198,208,0.08); margin-top:2px; display:flex; align-items:center; justify-content:center; }
+.timeline-dot-inner { width:7px; height:7px; border-radius:50%; background:var(--pink); box-shadow:0 0 10px rgba(245,198,208,0.7); }
+.timeline-date { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(245,198,208,0.5); margin-bottom:5px; }
+.timeline-text { font-size:14px; line-height:1.75; color:rgba(255,255,255,0.62); }
+
+.promise-cards { display:flex; flex-direction:column; gap:13px; }
+.promise-card { background:var(--glass); border:1px solid var(--glass-border); border-radius:17px; padding:20px 24px; backdrop-filter:blur(12px); transition:all .4s ease; }
+.promise-card:hover { transform:translateX(6px); background:rgba(245,198,208,0.06); border-color:rgba(245,198,208,0.2); }
+.promise-title { font-family:'Cormorant Garamond',serif; font-size:19px; color:rgba(255,255,255,0.9); margin-bottom:6px; }
+.promise-text { font-size:13px; line-height:1.75; color:rgba(255,255,255,0.52); }
+
+.couple-gallery { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:32px; }
+.couple-gallery-item { aspect-ratio:1; border-radius:11px; background:linear-gradient(135deg,rgba(245,198,208,0.07),rgba(212,197,226,0.05)); border:1px dashed rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,0.2); font-size:10px; transition:all .4s ease; flex-direction:column; gap:5px; overflow:hidden; }
+.couple-gallery-item:hover { border-color:rgba(245,198,208,0.25); transform:scale(1.04); }
+.couple-gallery-item img { width:100%; height:100%; object-fit:cover; border-radius:11px; }
+.couple-gallery-item svg { opacity:.22; }
+
+.love-letter { background:var(--glass); border:1px solid var(--glass-border); border-radius:22px; padding:34px; backdrop-filter:blur(16px); margin-top:32px; position:relative; overflow:hidden; }
+.love-letter::before { content:''; position:absolute; top:0; right:0; width:200px; height:200px; background:radial-gradient(circle,rgba(245,198,208,0.05),transparent); pointer-events:none; }
+.love-letter-heading { font-family:'Dancing Script',cursive; font-size:27px; color:rgba(245,198,208,0.8); margin-bottom:20px; }
+.love-letter-body { font-family:'Cormorant Garamond',serif; font-size:17px; font-style:italic; line-height:2; color:rgba(255,255,255,0.76); }
+.love-letter-sign { font-family:'Dancing Script',cursive; font-size:22px; color:rgba(212,168,83,0.72); margin-top:20px; text-align:right; }
+
+.countdown { display:flex; gap:24px; margin-top:26px; justify-content:center; }
+.countdown-unit { text-align:center; }
+.countdown-number { font-family:'Cormorant Garamond',serif; font-size:46px; font-weight:300; color:var(--pink); display:block; line-height:1; }
+.countdown-label { font-size:10px; letter-spacing:4px; color:rgba(255,255,255,0.33); text-transform:uppercase; margin-top:6px; display:block; }
+
+/* ══════════════════════════════════
+   MOBILE
+══════════════════════════════════ */
+@media (max-width:900px) {
+  .room1-content  { grid-template-columns:1fr; gap:38px; }
+  .polaroid-grid  { grid-template-columns:repeat(3,1fr); }
+  .scrapbook-grid { grid-template-columns:1fr; }
+  .vision-card    { grid-template-columns:1fr !important; min-height:unset; }
+  .vision-card-img { min-height:300px; border-right:none !important; border-left:none !important; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .vision-card:nth-child(even) .vision-card-img { order:0; }
+  .vision-card:nth-child(even) .vision-card-body { order:0; }
+  .challenge-grid { grid-template-columns:1fr 1fr; }
+  .us-grid        { grid-template-columns:1fr; }
+}
+@media (max-width:600px) {
+  body { cursor:auto; }
+  #cursor, #cursor-ring { display:none; }
+  #nav-dots { display:none; }
+  .polaroid-grid  { grid-template-columns:repeat(2,1fr); }
+  .challenge-grid { grid-template-columns:1fr; }
+  .vision-card-img { min-height:240px; }
+  .vision-card-body { padding:28px 24px; }
+}
+
+  </style>
+</head>
+<body>
+
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="particles-canvas"></canvas>
+  <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+
+  <button id="music-btn" onclick="toggleMusic()">♪ AMBIENCE</button>
+
+  <nav id="nav-dots">
+    <div class="nav-dot active" onclick="scrollToSection(0)" title="Intro"></div>
+    <div class="nav-dot" onclick="scrollToSection(1)" title="The Girl I See"></div>
+    <div class="nav-dot" onclick="scrollToSection(2)" title="Before the World Hurt You"></div>
+    <div class="nav-dot" onclick="scrollToSection(3)" title="Discovery Board"></div>
+    <div class="nav-dot" onclick="scrollToSection(4)" title="Future Her"></div>
+    <div class="nav-dot" onclick="scrollToSection(5)" title="Us"></div>
+  </nav>
+
+  <div id="transition-overlay"></div>
+
+  <button class="easter-egg-trigger" onclick="toggleEasterEgg()" aria-label="Secret message">♡</button>
+  <div class="easter-egg-popup" id="easter-egg-popup">
+    <p>"I hid this little corner just for you, Albie — in case you needed a quiet reminder that someone thinks about you even in the smallest details of things they build."</p>
+  </div>
+
+  <audio id="ambient-audio" loop>
+    <source src="Alex Warren - Ordinary.mp3" type="audio/mpeg">
+  </audio>
+
+  <div id="site-content">
+<!-- ═══════════════════════════════════════════
+     ROOM 0 — INTRO
+     The cinematic opening. Albertha's name
+     appears first, then the sentences reveal
+     one by one before the title fades in.
+     ═══════════════════════════════════════════ -->
+<section id="intro">
+
+  <!-- Ambient glow orbs -->
+  <div class="glow-orb" style="width:500px;height:500px;background:radial-gradient(circle,rgba(201,107,138,0.09),transparent);top:-100px;left:-100px;animation-duration:14s"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:radial-gradient(circle,rgba(212,197,226,0.07),transparent);bottom:-80px;right:-60px;animation-duration:18s;animation-delay:-5s"></div>
+  <div class="glow-orb" style="width:280px;height:280px;background:radial-gradient(circle,rgba(212,168,83,0.04),transparent);top:40%;left:60%;animation-duration:11s;animation-delay:-3s"></div>
+
+  <div class="intro-content">
+    <!-- Sentence reveal sequence — timed by script.js -->
+    <div id="s1" class="intro-sentence">Albertha,</div>
+    <div id="s2" class="intro-sentence">"Before you read a single word of this I need you to know one thing</div>
+    <div id="s3" class="intro-sentence">I am completely, embarrassingly, irreversibly in love with YOU"</div>
+
+    <!-- Heartbeat pulse line -->
+    <div class="heartbeat" id="heartbeat-line" style="opacity:0;transition:opacity 1s ease"></div>
+
+    <!-- Response sentence -->
+    <div id="s4" class="intro-sentence" style="font-size:clamp(14px,2.2vw,20px);color:rgba(255,255,255,0.6)">
+      YOU ARE LOVED. Not when you figure yourself out. Not when you stop being afraid. Right now. Exactly as you are. By me. Always.
+    </div>
+
+    <!-- Main title -->
+    <div id="title-main" class="title-main" style="margin-top:42px">Becoming Her Again</div>
+
+    <!-- Subtitle -->
+    <div id="subtitle-main" class="subtitle-intro">A world built for you, with all my love</div>
+
+    <!-- Enter button -->
+    <div>
+      <div class="enter-btn" id="enter-btn" onclick="enterSite()">Enter Your World</div>
+    </div>
+  </div>
+
+</section>
+
+<section id="room1">
+
+  <div class="room-label"><span class="room-number">I</span>The Girl I See</div>
+
+  <div class="glow-orb" style="width:600px;height:600px;background:radial-gradient(circle,rgba(201,107,138,0.07),transparent);top:-200px;right:-200px;animation-duration:16s"></div>
+  <div class="floating-heart" style="top:18%;left:5%;animation-delay:0s">♡</div>
+  <div class="floating-heart" style="top:62%;right:7%;animation-delay:2s">♡</div>
+  <div class="floating-heart" style="top:80%;left:10%;animation-delay:4s">♡</div>
+
+  <div class="room1-content">
+
+    <!-- LEFT -->
+    <div>
+      <div class="section-eyebrow fade-up">Chapter One</div>
+      <h2 class="section-title fade-up">Albie, this is<br>the girl <em>I see</em></h2>
+      <div class="section-divider fade-up"></div>
+      <p class="section-body fade-up">
+        I know you don't always see yourself the way I see you. I know there are days when the world
+        feels very loud and your sense of self feels very quiet. So I built this room not to change
+        how you see yourself, but to hold up a mirror made of words so you can see what I see
+        every single time I look at you.
+      </p>
+
+      <div class="quote-card fade-up">
+        <div class="quote-text">You are one of the most deeply feeling, most genuinely caring people I have ever known. That is not a flaw, Albertha. That is one of the most extraordinary things about you.</div>
+        <div class="quote-attr">— what I want you to know</div>
+      </div>
+
+      <div class="quote-card fade-up">
+        <div class="quote-text">You love so completely, you give before you are asked, and you stay when it costs you something. There is so much beauty in how you love and it starts with you learning to love yourself with even a fraction of that same generosity.</div>
+        <div class="quote-attr">— always true of you</div>
+      </div>
+
+      <div class="section-eyebrow fade-up" style="margin-top:32px;margin-bottom:14px">Things I deeply admire about Albertha</div>
+      <div class="admire-list fade-up">
+        <div class="admire-item"><div class="admire-dot"></div><div class="admire-text">The way you love completely, without half-measures, even when it costs you something</div></div>
+        <div class="admire-item"><div class="admire-dot"></div><div class="admire-text">How you show up for people you care about, even on the days you are running low yourself</div></div>
+        <div class="admire-item"><div class="admire-dot"></div><div class="admire-text">Your emotional honesty you feel things deeply and you are not afraid to say so</div></div>
+        <div class="admire-item"><div class="admire-dot"></div><div class="admire-text">The fact that you are still soft after everything the world put you through. That is not weakness. That is survival with grace.</div></div>
+        <div class="admire-item"><div class="admire-dot"></div><div class="admire-text">How you keep choosing love, even when love has not always been kind to you</div></div>
+        <div class="admire-item"><div class="admire-dot"></div><div class="admire-text">The strength it took just to get here and how quietly you carry it</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div>
+      <div class="polaroid-grid">
+
+        <div class="polaroid">
+          <div class="polaroid-img">
+            <img src="images/albie-01.jpg" alt="my Albie">
+          </div>
+          <div class="polaroid-caption">my Albie</div>
+        </div>
+
+        <div class="polaroid">
+          <div class="polaroid-img">
+            <img src="images/albie-02.jpg" alt="that smile">
+          </div>
+          <div class="polaroid-caption">that smile 🌸</div>
+        </div>
+
+        <div class="polaroid">
+          <div class="polaroid-img">
+            <img src="images/albie-03.jpg" alt="so radiant">
+          </div>
+          <div class="polaroid-caption">so radiant</div>
+        </div>
+
+        <div class="polaroid">
+          <div class="polaroid-img">
+            <img src="images/albie-04.jpg" alt="my favourite view">
+          </div>
+          <div class="polaroid-caption">my favourite view</div>
+        </div>
+
+        <div class="polaroid">
+          <div class="polaroid-img">
+            <img src="images/albie-05.jpg" alt="always her">
+          </div>
+          <div class="polaroid-caption">always her 🌷</div>
+        </div>
+
+        <div class="polaroid">
+          <div class="polaroid-img">
+            <img src="images/albie-06.jpg" alt="my person">
+          </div>
+          <div class="polaroid-caption">my person ♡</div>
+        </div>
+
+      </div>
+
+      <div class="quote-card fade-up" style="margin-top:20px;background:linear-gradient(135deg,rgba(245,198,208,0.07),rgba(212,197,226,0.04))">
+        <div class="quote-text" style="font-size:16px">Moments Albertha was stronger than she realised:</div>
+        <div style="margin-top:13px;display:flex;flex-direction:column;gap:9px">
+          <div class="strength-item">Every time the past tried to define her and she refused to let it</div>
+          <div class="strength-item">Every time she stayed soft in a world that told her to harden</div>
+          <div class="strength-item">Every time she chose to keep loving, even when love felt risky</div>
+          <div class="strength-item">Today, for being here, still open, still trying</div>
+        </div>
+      </div>
+
+      <div class="secure-banner">
+        "You are safe here, Albertha. This is a place where you are fully known and fully loved, exactly as you are right now."
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="room2">
+
+  <div class="room-label"><span class="room-number">II</span>She Was Always This</div>
+
+  <div class="cloud-drift" style="width:600px;height:300px;top:10%;left:-100px"></div>
+  <div class="cloud-drift" style="width:380px;height:200px;bottom:18%;right:-60px;animation-delay:-8s;animation-duration:26s"></div>
+
+  <div class="room2-content">
+
+    <div class="fade-up" style="text-align:center">
+      <div class="section-eyebrow" style="text-align:center">Chapter Two</div>
+      <h2 class="section-title" style="text-align:center">She was always<br><em>this beautiful</em></h2>
+      <div class="section-divider" style="margin:22px auto"></div>
+      <p class="section-body" style="max-width:640px;margin:0 auto">
+        Long before anyone got to know her name, Albertha was already something special.
+        Curious about everything. Warm in a way that filled whatever room she was in.
+        Full of laughter that arrived before she could stop it. That girl is still here
+        she never left. She has just been waiting for someone to remind her how wonderful she is.
+        A responsible HeadGirl, she leaded with so much repect and enthusiasm.
+      </p>
+    </div>
+
+    <div class="scrapbook-grid">
+
+      <!-- Card 1 -->
+      <div class="scrapbook-card fade-up">
+        <div class="memory-img">
+          <img src="images/memory-01.jpg" alt="happy memory">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          
+        </div>
+        <div class="scrapbook-label">She always had this</div>
+        <div class="scrapbook-title">Her Warmth</div>
+        <div class="scrapbook-text">The way Albertha loves people is rare. She makes others feel seen without even trying. That warmth was never something she learned it was always just her.</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="scrapbook-card fade-up" style="animation-delay:.1s">
+        <div class="memory-img">
+          <img src="images/memory-02.jpg" alt="something joyful">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          
+        </div>
+        <div class="scrapbook-label">The things that make her eyes light up</div>
+        <div class="scrapbook-title">Her Wonder</div>
+        <div class="scrapbook-text">She has always found beauty in places most people walk past. The small things that make an ordinary day feel like something more.</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="scrapbook-card fade-up" style="animation-delay:.2s">
+        <div class="memory-img">
+          <img src="images/memory-03.jpg" alt="peaceful moment">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          
+        </div>
+        <div class="scrapbook-label">Quiet but powerful</div>
+        <div class="scrapbook-title">Her Softness</div>
+        <div class="scrapbook-text">There is a gentleness in Albertha that the world does not always appreciate. But it is one of the most powerful things about her. Softness like hers takes real courage to keep.</div>
+      </div>
+
+      <!-- Card 4 — full width -->
+      <div class="scrapbook-card fade-up" style="animation-delay:.28s;grid-column:1 / -1">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center">
+          <div>
+            <div class="scrapbook-label">She has always been this</div>
+            <div class="scrapbook-title">Albertha, Simply Herself</div>
+            <div class="scrapbook-text">Before anyone had opinions about who she should be, Albertha already was someone remarkable. Expressive. Passionate. Deeply feeling. Someone who cares so completely it shows in everything she does. That is not something she became. That is who she has always been.</div>
+            <div style="margin-top:18px;font-family:'Dancing Script',cursive;font-size:16px;color:rgba(245,198,208,0.62);line-height:1.7">
+              "She was never too much. The world just wasn't ready for all of her."
+            </div>
+          </div>
+          <div class="memory-img" style="height:200px">
+            <img src="images/memory-04.jpg" alt="portrait">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="scrapbook-card fade-up" style="animation-delay:.35s;grid-column:1 / -1">
+        <div class="scrapbook-label">A reminder, from me</div>
+        <div class="scrapbook-title">You Have Always Been Enough</div>
+        <div class="scrapbook-text">Not almost enough. Not enough when you try harder. Enough exactly as you are, in this moment, with all the parts of you that you are still figuring out. I see all of it and I am not going anywhere.</div>
+        <div style="margin-top:16px;font-family:'Dancing Script',cursive;font-size:17px;color:rgba(245,198,208,0.65);line-height:1.7">
+          "Albie, you were wonderful before I met you. I just get to be the one who tells you."
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ROOM 3 — THE DISCOVERY BOARD
+     Purpose: Interactive self-discovery cards.
+     3 cards open, 6 locked — click to unlock.
+     Cards are built by script.js from the
+     CHALLENGES array defined there.
+     ═══════════════════════════════════════════ -->
+<section id="room3">
+
+  <div class="room-label"><span class="room-number">III</span>The Discovery Board</div>
+
+  <!-- Glow orb -->
+  <div class="glow-orb" style="width:480px;height:480px;background:radial-gradient(circle,rgba(212,197,226,0.07),transparent);top:10%;right:-100px;animation-duration:15s"></div>
+
+  <div class="room3-content">
+
+    <!-- Section header -->
+    <div class="fade-up" style="text-align:center">
+      <div class="section-eyebrow" style="text-align:center">Chapter Three</div>
+      <h2 class="section-title" style="text-align:center">Little by little,<br><em>rediscovering Albie</em></h2>
+      <div class="section-divider" style="margin:22px auto"></div>
+      <p class="section-body" style="max-width:600px;margin:0 auto 8px">
+        These are not tasks or tests. They are gentle invitations small moments to spend time with yourself,
+        not because anything is wrong, but because <em style="color:rgba(245,198,208,0.8)">you</em> are worth getting to know more deeply.
+        There is no pressure and no deadline. Just you, when you are ready.
+      </p>
+      <div style="font-family:'Dancing Script',cursive;font-size:16px;color:rgba(245,198,208,0.5)">
+        Click any card when you feel ready to unlock it ♡
+      </div>
+    </div>
+
+    <!-- Challenge cards injected here by script.js -->
+    <div class="challenge-grid" id="challenge-grid"></div>
+
+  </div><!-- /room3-content -->
+
+</section>
+
+<section id="room4">
+
+  <div class="room-label"><span class="room-number">IV</span>Future Her</div>
+
+  <!-- Aurora gradient background layer -->
+  <div class="aurora"></div>
+
+  <div class="room4-content">
+
+    <!-- Section header -->
+    <div class="fade-up" style="text-align:center;position:relative;z-index:1">
+      <div class="section-eyebrow" style="text-align:center">Chapter Four</div>
+      <h2 class="section-title" style="text-align:center">The Albertha<br>she is <em>becoming</em></h2>
+      <div class="section-divider" style="margin:22px auto"></div>
+      <p class="section-body" style="max-width:620px;margin:0 auto">
+        Close your eyes and picture her. She is grounded. She knows who she is outside of anyone else's opinion. She still loves deeply but from a place of fullness, not fear. She knows her value and she does not need to earn it. She is you, Albie. Already on her way. Already arriving.
+      </p>
+    </div>
+
+    <!-- Vision cards -->
+    <div class="vision-grid" style="position:relative;z-index:1">
+
+      <!-- Card 1: Identity -->
+      <div class="vision-card fade-up">
+        <div class="vision-card-img">
+          <img src="images/vision-identity.jpg" alt="your dream version of you">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          
+        </div>
+        <div class="vision-card-body">
+          <div class="vision-tag">Identity</div>
+          <div class="vision-title">She Knows Herself</div>
+          <div class="vision-text">She has passions that are entirely her own. She knows what she likes, what she stands for, what she wants from life and she does not need anyone's validation to claim it.</div>
+          <div class="vision-quote">"Knowing yourself is the quietest, most powerful thing."</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Peace -->
+      <div class="vision-card fade-up" style="animation-delay:.15s">
+        <div class="vision-card-img">
+          <img src="images/vision-peace.jpg" alt="a place you dream of">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+         
+        </div>
+        <div class="vision-card-body">
+          <div class="vision-tag">Peace</div>
+          <div class="vision-title">She Is at Peace</div>
+          <div class="vision-text">She has learned that her emotions are valid AND that they do not have to overwhelm her. She feels everything fully and she is okay. She is steady inside herself, even when things around her are not.</div>
+          <div class="vision-quote">"Feeling deeply is a gift. Peace is learning to hold it gently."</div>
+        </div>
+      </div>
+
+      <!-- Card 3: Security -->
+      <div class="vision-card fade-up" style="animation-delay:.3s">
+        <div class="vision-card-img">
+          <img src="images/vision-confidence.jpg" alt="you in your confidence">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          
+        </div>
+        <div class="vision-card-body">
+          <div class="vision-tag">Security</div>
+          <div class="vision-title">She Trusts Herself</div>
+          <div class="vision-text">She no longer needs constant reassurance because she has built a quiet inner knowing. She knows she is loved. She knows she is worthy. And she lets that be a joy not a need she is afraid to lose.</div>
+          <div class="vision-quote">"Security doesn't come from being held tight. It grows quietly within."</div>
+        </div>
+      </div>
+
+      <!-- Card 4: Wholeness -->
+      <div class="vision-card fade-up" style="animation-delay:.45s">
+        <div class="vision-card-img">
+          <img src="images/vision-wholeness.jpg" alt="your best self">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          
+        </div>
+        <div class="vision-card-body">
+          <div class="vision-tag">Wholeness</div>
+          <div class="vision-title">She Loves Freely</div>
+          <div class="vision-text">She loves her boyfriend deeply and genuinely and she loves herself too. She has her own world, her own light. When they come together, it is not need meeting need. It is two whole people who choose each other.</div>
+          <div class="vision-quote">"The most beautiful love is between two people who are also complete on their own."</div>
+        </div>
+      </div>
+
+    </div><!-- /vision-grid -->
+
+    <!-- Closing quote -->
+    <div style="text-align:center;margin-top:52px;position:relative;z-index:1" class="fade-up">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.7vw,33px);font-style:italic;color:rgba(255,255,255,0.8);max-width:720px;margin:0 auto;line-height:1.65">
+        "She is not who she was. She is not yet who she will be.<br>
+        But right now, in this exact becoming Albertha is the most alive she has ever been."
+      </div>
+    </div>
+
+  </div><!-- /room4-content -->
+
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ROOM 5 — US
+     Purpose: Reassure Albertha that her growth
+     doesn't mean distance. Deep romantic close.
+
+     TO ADD COUPLE PHOTOS:
+     Replace each .couple-gallery-item div with:
+     <div class="couple-gallery-item">
+       <img src="images/us-01.jpg" alt="us">
+     </div>
+
+     COUNTDOWN DATE:
+     Update ANNIVERSARY_DATE in script.js
+     ═══════════════════════════════════════════ -->
+<section id="room5">
+
+  <div class="room-label"><span class="room-number">V</span>Us</div>
+
+  <!-- Glow orb -->
+  <div class="glow-orb" style="width:680px;height:680px;background:radial-gradient(circle,rgba(201,107,138,0.06),transparent);bottom:-200px;left:-200px;animation-duration:20s"></div>
+
+  <div class="room5-content">
+
+    <!-- Section header -->
+    <div class="fade-up" style="text-align:center;margin-bottom:52px">
+      <div class="section-eyebrow" style="text-align:center">Chapter Five</div>
+      <h2 class="section-title" style="text-align:center">Your becoming<br><em>doesn't change us</em></h2>
+      <div class="section-divider" style="margin:22px auto"></div>
+      <p class="section-body" style="max-width:640px;margin:0 auto">
+        Albie, I need you to hear this clearly: wanting you to discover yourself is not me pulling away from you. It is the deepest form of love I know how to give. I am building my future so that one day it includes you fully. And I want to be right beside you while you build yours too. This journey and our love are not opposites. They are the same thing.
+      </p>
+    </div>
+
+    <div class="us-grid">
+
+      <!-- LEFT — Timeline + couple gallery -->
+      <div>
+        <div class="section-eyebrow fade-left">Our story, so far</div>
+
+        <div class="timeline fade-left">
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div>
+              <div class="timeline-date">How it started</div>
+              <div class="timeline-text">The moment I realised you were different from anyone I had ever known. The kind of person who stays in your mind long after the conversation ends.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div>
+              <div class="timeline-date">When I knew</div>
+              <div class="timeline-text">When I saw how deeply you love, I wanted to be someone who loved you back with the same honesty and the same commitment.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div>
+              <div class="timeline-date">A year together</div>
+              <div class="timeline-text">It has not always been easy for either of us. But every hard moment is proof that we kept choosing to stay. I would choose it again. Every time.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div>
+              <div class="timeline-date">Right now</div>
+              <div class="timeline-text">Me building, you growing, both of us figuring it out together. This is the season. It is not easy but it is ours, and it is worth it.</div>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"><div class="timeline-dot-inner"></div></div>
+            <div>
+              <div class="timeline-date">What's ahead</div>
+              <div class="timeline-text">Two whole people with their own dreams who choose each other through all of it. That is what I am working toward with you, always with you.</div>
+            </div>
+          </div>
+        </div><!-- /timeline -->
+
+        <!-- Couple photo gallery -->
+        <div class="couple-gallery fade-left" style="animation-delay:.2s">
+          <div class="couple-gallery-item"><img src="images/us-1.jpg" alt="us"></div>
+          <div class="couple-gallery-item"><img src="images/us-2.jpg" alt="us"></div>
+          <div class="couple-gallery-item"><img src="images/us-3.jpg" alt="us"></div>
+          <div class="couple-gallery-item"><img src="images/us-4.jpg" alt="us"></div>
+          <div class="couple-gallery-item"><img src="images/us-5.jpg" alt="us"></div>
+          <div class="couple-gallery-item"><img src="images/us-6.jpg" alt="us"></div>
+        </div><!-- /couple-gallery -->
+
+      </div><!-- /left column -->
+
+      <!-- RIGHT — Promises + love letter + countdown -->
+      <div class="fade-right">
+
+        <div class="section-eyebrow" style="margin-bottom:14px">Promises I'm keeping for you</div>
+
+        <div class="promise-cards">
+          <div class="promise-card">
+            <div class="promise-title">I am not going anywhere</div>
+            <div class="promise-text">My focus on building my future is not a withdrawal from you. It is me working toward a life that one day holds both of us. You are part of the reason I am pushing so hard.</div>
+          </div>
+          <div class="promise-card">
+            <div class="promise-title">When I am quiet, it is not distance</div>
+            <div class="promise-text">I know your heart reads silence as absence and I understand why, after everything. But my silence is never about how I feel about you. You are still on my mind. You are always on my mind.</div>
+          </div>
+          <div class="promise-card">
+            <div class="promise-title">I will love you through the becoming</div>
+            <div class="promise-text">Not just when you've arrived at some finished version of yourself but through every uncertain, figuring-it-out, in-between moment. I am not waiting for a complete version of you. I love this one.</div>
+          </div>
+          <div class="promise-card">
+            <div class="promise-title">I choose you, every version</div>
+            <div class="promise-text">The Albie who is still figuring things out. The one who needs reassurance. The one who is brave. The one who is scared. All of her. Every single time.</div>
+          </div>
+        </div><!-- /promise-cards -->
+
+        <!-- Love letter -->
+        <div class="love-letter fade-up" style="animation-delay:.4s">
+          <div class="love-letter-heading">A letter for Albertha</div>
+          <div class="love-letter-body">
+            My love, I built this for you because I see you, all of you, and I want you to see yourself too. Not because anything is wrong with who you are. Not to change you. But because the girl inside you is remarkable, and she deserves the chance to meet herself. I am not going anywhere. I am right here. And I will be here when you come back to yourself proud of every step it took you to arrive.
+          </div>
+          <div class="love-letter-sign">— always yours, always here</div>
+        </div>
+
+        <!-- Countdown -->
+        <div style="text-align:center;margin-top:32px" class="fade-up">
+          <div class="section-eyebrow" style="margin-bottom:16px;text-align:center">Days we have been writing our story</div>
+          <div class="countdown">
+            <div class="countdown-unit">
+              <span class="countdown-number" id="cd-days">—</span>
+              <span class="countdown-label">days</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-number" id="cd-hours">—</span>
+              <span class="countdown-label">hours</span>
+            </div>
+            <div class="countdown-unit">
+              <span class="countdown-number" id="cd-mins">—</span>
+              <span class="countdown-label">minutes</span>
+            </div>
+          </div>
+          <div style="font-family:'Dancing Script',cursive;font-size:15px;color:rgba(245,198,208,0.4);margin-top:13px">
+            and every single one of them mattered, Albie
+          </div>
+        </div>
+
+      </div><!-- /right column -->
+
+    </div><!-- /us-grid -->
+
+  </div><!-- /room5-content -->
+
+</section>
+
+  </div>
+
+  <script>
+/* ═══════════════════════════════════════════════════════
+   BECOMING HER AGAIN — script.js
+   For Albertha Ampomah Quaicoe
+
+   TABLE OF CONTENTS
+   1.  CONFIG — Edit your personal settings here
+   2.  CONTENT LOADER — Fetches and injects content/*.html
+   3.  PARTICLES — Canvas ambient particle system
+   4.  CURSOR — Custom rose gold cursor + ring
+   5.  INTRO — Cinematic sentence reveal sequence
+   6.  NAVIGATION — Nav dots + scroll tracking + progress bar
+   7.  SCROLL ANIMATIONS — fade-up / fade-left / fade-right
+   8.  MUSIC — Ambient audio toggle
+   9.  EASTER EGG — Hidden romantic message
+   10. CHALLENGE CARDS — Discovery board build + unlock
+   11. COUNTDOWN — Days/hours/minutes since anniversary
+   12. INIT — Runs everything after content loads
+
+   ═══════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────
+   1. CONFIG
+   Edit these values to personalise the site.
+   ───────────────────────────────────────── */
+const CONFIG = {
+  // ← Change this to your real anniversary date
+  ANNIVERSARY_DATE: '2025-02-14T00:00:00',
+
+  // Content files to load in order
+  CONTENT_FILES: [
+    'content/01-intro.html',
+    'content/02-girl-i-see.html',
+    'content/03-before-pain.html',
+    'content/04-discovery.html',
+    'content/05-future-her.html',
+    'content/06-us.html',
+  ],
+
+  // Section IDs matching the loaded content
+  SECTION_IDS: ['intro', 'room1', 'room2', 'room3', 'room4', 'room5'],
+
+  // Particle system
+  PARTICLE_COUNT: 80,
+}
+
+
+/* ─────────────────────────────────────────
+   2. CONTENT LOADER
+   Fetches each content file and injects it
+   into #site-content, then boots everything.
+   ───────────────────────────────────────── */
+function loadContent() {
+  // Content is already inlined in the HTML — just boot everything
+  init();
+}
+
+
+/* ─────────────────────────────────────────
+   3. PARTICLES
+   Soft ambient rose-gold particles drifting
+   across the fixed canvas background.
+   ───────────────────────────────────────── */
+function initParticles() {
+  const canvas = document.getElementById('particles-canvas')
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+
+  const resize = () => {
+    canvas.width  = window.innerWidth
+    canvas.height = window.innerHeight
+  }
+  resize()
+  window.addEventListener('resize', resize)
+
+  const particles = Array.from({ length: CONFIG.PARTICLE_COUNT }, () => ({
+    x:  Math.random() * canvas.width,
+    y:  Math.random() * canvas.height,
+    r:  Math.random() * 1.4 + 0.4,
+    vx: (Math.random() - 0.5) * 0.18,
+    vy: (Math.random() - 0.5) * 0.18 - 0.04,
+    o:  Math.random() * 0.36 + 0.05,
+    fl: Math.random() * Math.PI * 2,
+  }))
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    particles.forEach(p => {
+      p.fl += 0.018
+      const alpha = p.o * (0.7 + 0.3 * Math.sin(p.fl))
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+      ctx.fillStyle = `rgba(245,198,208,${alpha})`
+      ctx.fill()
+      p.x += p.vx
+      p.y += p.vy
+      if (p.x < 0) p.x = canvas.width
+      if (p.x > canvas.width) p.x = 0
+      if (p.y < 0) p.y = canvas.height
+      if (p.y > canvas.height) p.y = 0
+    })
+    requestAnimationFrame(animate)
+  }
+  animate()
+}
+
+
+/* ─────────────────────────────────────────
+   4. CURSOR
+   Custom rose-gold dot + trailing ring.
+   Scales up on interactive elements.
+   ───────────────────────────────────────── */
+function initCursor() {
+  const cur  = document.getElementById('cursor')
+  const ring = document.getElementById('cursor-ring')
+  if (!cur || !ring) return
+
+  let mx = 0, my = 0, rx = 0, ry = 0
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX
+    my = e.clientY
+    cur.style.left = mx + 'px'
+    cur.style.top  = my + 'px'
+  })
+
+  ;(function animRing() {
+    rx += (mx - rx) * 0.1
+    ry += (my - ry) * 0.1
+    ring.style.left = rx + 'px'
+    ring.style.top  = ry + 'px'
+    requestAnimationFrame(animRing)
+  })()
+
+  // Magnify on interactive elements
+  const SELECTORS = 'button, .enter-btn, .challenge-card, .nav-dot, .easter-egg-trigger, .polaroid, .promise-card, .admire-item, a'
+
+  function attachHover() {
+    document.querySelectorAll(SELECTORS).forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cur.style.transform  = 'translate(-50%,-50%) scale(2.4)'
+        ring.style.transform = 'translate(-50%,-50%) scale(1.4)'
+      })
+      el.addEventListener('mouseleave', () => {
+        cur.style.transform  = 'translate(-50%,-50%) scale(1)'
+        ring.style.transform = 'translate(-50%,-50%) scale(1)'
+      })
+    })
+  }
+  attachHover()
+
+  // Re-attach after dynamic content (challenge cards)
+  const observer = new MutationObserver(attachHover)
+  observer.observe(document.body, { childList: true, subtree: true })
+}
+
+
+/* ─────────────────────────────────────────
+   5. INTRO
+   Cinematic sentence reveal sequence.
+   Sentences appear one at a time, then the
+   title and enter button fade in.
+   ───────────────────────────────────────── */
+function initIntro() {
+  const g = id => document.getElementById(id)
+  if (!g('s1')) return
+
+  // Timing (ms)
+  setTimeout(() => g('s1').classList.add('visible'), 700)
+  setTimeout(() => g('s2').classList.add('visible'), 1900)
+  setTimeout(() => g('s3').classList.add('visible'), 3300)
+  setTimeout(() => { if (g('heartbeat-line')) g('heartbeat-line').style.opacity = '0.5' }, 4600)
+  setTimeout(() => g('s4').classList.add('visible'), 5400)
+  setTimeout(() => g('title-main').classList.add('visible'), 7000)
+  setTimeout(() => g('subtitle-main').classList.add('visible'), 8200)
+  setTimeout(() => g('enter-btn').classList.add('visible'), 8800)
+}
+
+// Called by the Enter button in 01-intro.html
+function enterSite() {
+  const ov = document.getElementById('transition-overlay')
+  ov.style.opacity = '1'
+  setTimeout(() => {
+    document.getElementById('room1').scrollIntoView({ behavior: 'smooth' })
+    setTimeout(() => { ov.style.opacity = '0' }, 400)
+  }, 500)
+}
+
+// Called by nav dots
+function scrollToSection(index) {
+  const id = CONFIG.SECTION_IDS[index]
+  const el = document.getElementById(id)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
+
+
+/* ─────────────────────────────────────────
+   6. NAVIGATION
+   Progress bar + nav dot active state
+   tracking based on scroll position.
+   ───────────────────────────────────────── */
+function initNavigation() {
+  const pb   = document.getElementById('progress-bar')
+  const dots = document.querySelectorAll('.nav-dot')
+
+  function onScroll() {
+    // Progress bar
+    const scrolled = window.scrollY
+    const total    = document.body.scrollHeight - window.innerHeight
+    if (pb && total > 0) pb.style.width = (scrolled / total * 100) + '%'
+
+    // Active dot
+    CONFIG.SECTION_IDS.forEach((id, i) => {
+      const el = document.getElementById(id)
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
+        dots.forEach(d => d.classList.remove('active'))
+        if (dots[i]) dots[i].classList.add('active')
+      }
+    })
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+}
+
+
+/* ─────────────────────────────────────────
+   7. SCROLL ANIMATIONS
+   Elements with .fade-up, .fade-left, or
+   .fade-right animate in when scrolled into
+   view (88% of viewport height threshold).
+   ───────────────────────────────────────── */
+function initScrollAnimations() {
+  function revealVisible() {
+    document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(function(el) {
+      var rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 1.05 && rect.bottom > -50) {
+        el.classList.add('in');
+      }
+    });
+  }
+
+  // Run immediately
+  revealVisible();
+
+  // Run on every scroll
+  window.addEventListener('scroll', revealVisible, { passive: true });
+
+  // Also run on resize
+  window.addEventListener('resize', revealVisible, { passive: true });
+
+  // Safety net: run again after short delays in case layout shifts
+  setTimeout(revealVisible, 100);
+  setTimeout(revealVisible, 500);
+  setTimeout(revealVisible, 1000);
+}
+
+
+/* ─────────────────────────────────────────
+   8. MUSIC
+   Ambient audio toggle. Tries local file
+   first, falls back to CDN (set in index.html
+   <audio> source order).
+   ───────────────────────────────────────── */
+let musicOn = false
+
+function toggleMusic() {
+  const audio = document.getElementById('ambient-audio')
+  const btn   = document.getElementById('music-btn')
+  if (!audio || !btn) return
+
+  audio.volume = 0.28
+
+  if (musicOn) {
+    audio.pause()
+    btn.textContent = '♪ AMBIENCE'
+  } else {
+    audio.play().catch(() => {
+      console.log('Audio autoplay blocked — user must interact first.')
+    })
+    btn.textContent = '♫ PLAYING'
+  }
+  musicOn = !musicOn
+}
+
+
+/* ─────────────────────────────────────────
+   9. EASTER EGG
+   Hidden romantic message, bottom-left corner.
+   ───────────────────────────────────────── */
+let eggOpen = false
+
+function toggleEasterEgg() {
+  eggOpen = !eggOpen
+  const popup = document.getElementById('easter-egg-popup')
+  if (popup) popup.classList.toggle('show', eggOpen)
+}
+
+// Close easter egg if clicking outside
+document.addEventListener('click', e => {
+  const popup   = document.getElementById('easter-egg-popup')
+  const trigger = document.querySelector('.easter-egg-trigger')
+  if (eggOpen && popup && !popup.contains(e.target) && !trigger.contains(e.target)) {
+    eggOpen = false
+    popup.classList.remove('show')
+  }
+})
+
+
+/* ─────────────────────────────────────────
+   10. CHALLENGE CARDS
+   Builds the discovery board cards from the
+   CHALLENGES array and handles unlock logic.
+   ───────────────────────────────────────── */
+const CHALLENGES = [
+  {
+    icon: '📸',
+    title: 'Photograph Your World',
+    desc: "Take photos of 3 things that made you smile today — not for anyone else, just for you. Your eyes notice beauty in a way that is entirely your own.",
+    note: "I would genuinely love to see what you notice, Albie ♡",
+    locked: false,
+  },
+  {
+    icon: '🌿',
+    title: 'One Hour, Entirely Yours',
+    desc: "Spend one full hour doing exactly what you want — no checking in, no obligations, no explaining yourself to anyone. Just you and whatever feels right.",
+    note: "You deserve your own undivided attention ♡",
+    locked: false,
+  },
+  {
+    icon: '✍️',
+    title: 'Write About Albertha',
+    desc: "Write one full page about yourself — who you are, what you love, what you dream about — without mentioning anyone else. Not even me. Just her.",
+    note: "She deserves to be the whole story sometimes ♡",
+    locked: false,
+  },
+  {
+    icon: '🎨',
+    title: 'Make Something',
+    desc: "Create anything with your hands — draw, write poetry, bake, arrange flowers. Let it out without judgment. It doesn't need to be good. It just needs to be yours.",
+    note: "Everything you make is a small act of becoming ♡",
+    locked: true,
+  },
+  {
+    icon: '🌅',
+    title: 'Watch the Sky Change',
+    desc: "Sit somewhere and watch a sunrise or a full sunset — all the way through. Just you and the sky. Let it remind you that everything changes, and change can be beautiful.",
+    note: "New beginnings were made for someone like you ♡",
+    locked: true,
+  },
+  {
+    icon: '💌',
+    title: 'Write to Future Albie',
+    desc: "Write a letter to yourself one year from now. Tell her what you hope she knows, who you hope she has become, and how proud you already are of her.",
+    note: "She will treasure it. I promise you that ♡",
+    locked: true,
+  },
+  {
+    icon: '🎵',
+    title: 'Build Your Soundtrack',
+    desc: "Create a playlist of songs that feel like YOU — not your emotions right now, not old memories, but who you are at your core. What does Albertha sound like?",
+    note: "Music remembers parts of us we forget to claim ♡",
+    locked: true,
+  },
+  {
+    icon: '🌸',
+    title: 'Do One Thing Alone',
+    desc: "Do something you would normally want company for — go somewhere, try something new — but do it alone. Notice what it feels like to be your own company. She is good company, Albie.",
+    note: "Being with yourself is not loneliness. It is coming home ♡",
+    locked: true,
+  },
+  {
+    icon: '🫶',
+    title: 'Speak to Yourself Kindly',
+    desc: "For one full day, catch every time you are hard on yourself — and replace it with what you would say to someone you deeply love. Because you are someone worth loving deeply.",
+    note: "You deserve that same grace more than anyone I know ♡",
+    locked: true,
+  },
+]
+
+function initChallengeCards() {
+  const grid = document.getElementById('challenge-grid')
+  if (!grid) return
+
+  CHALLENGES.forEach((c, i) => {
+    const card = document.createElement('div')
+    card.className = 'challenge-card' + (c.locked ? ' locked' : '')
+
+    card.innerHTML = `
+      ${c.locked ? '<span class="lock-icon">🔒</span>' : ''}
+      <div class="challenge-number">For Albie · ${String(i + 1).padStart(2, '0')}</div>
+      <span class="challenge-icon">${c.icon}</span>
+      <div class="challenge-title">${c.title}</div>
+      <div class="challenge-desc">${c.desc}</div>
+      <div class="challenge-note">${c.note}</div>
+    `
+
+    if (c.locked) {
+      card.addEventListener('click', () => {
+        card.classList.remove('locked')
+        card.querySelector('.lock-icon')?.remove()
+        card.classList.add('unlocking')
+        setTimeout(() => card.classList.remove('unlocking'), 800)
+      })
+    }
+
+    grid.appendChild(card)
+  })
+}
+
+
+/* ─────────────────────────────────────────
+   11. COUNTDOWN
+   Shows days/hours/minutes since anniversary.
+   Update ANNIVERSARY_DATE in CONFIG above.
+   ───────────────────────────────────────── */
+function initCountdown() {
+  function update() {
+    const start = new Date(CONFIG.ANNIVERSARY_DATE)
+    const now   = new Date()
+    const diff  = Math.max(0, now - start)
+
+    const el = id => document.getElementById(id)
+    if (el('cd-days'))  el('cd-days').textContent  = Math.floor(diff / 864e5)
+    if (el('cd-hours')) el('cd-hours').textContent = String(now.getHours()).padStart(2, '0')
+    if (el('cd-mins'))  el('cd-mins').textContent  = String(now.getMinutes()).padStart(2, '0')
+  }
+
+  update()
+  setInterval(() => {
+    const el = document.getElementById('cd-mins')
+    if (el) el.textContent = String(new Date().getMinutes()).padStart(2, '0')
+  }, 60000)
+}
+
+
+/* ─────────────────────────────────────────
+   12. INIT
+   Called after all content files are loaded.
+   ───────────────────────────────────────── */
+function init() {
+  initParticles()
+  initCursor()
+  initIntro()
+  initNavigation()
+  initScrollAnimations()
+  initChallengeCards()
+  initCountdown()
+}
+
+
+/* ─────────────────────────────────────────
+   BOOT
+   Start by loading the content, which calls
+   init() when all sections are in the DOM.
+   ───────────────────────────────────────── */
+loadContent()
+
+  </script>
+</body>
+</html>
